@@ -1,0 +1,15 @@
+{
+    "name": "thiagomeloo/tenant",
+    "autoload": {
+        "psr-4": {
+            "Thiagomeloo\\Tenant\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Thiago Melo",
+            "email": "4thiagomelo5@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -3,7 +3,8 @@
 ### Install
 
 - install package
-- running migrations
+- run migrations for creating tables **tenants** and **domains**
+- create folder migrations tenant in **database/migrations/tenant/app**
 
 ### Example usage
 

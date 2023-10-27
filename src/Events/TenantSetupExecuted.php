@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thiagomeloo\Tenant\Events;
 
 use Illuminate\Queue\SerializesModels;
 
-class TenantSetupExecuted
+final class TenantSetupExecuted
 {
+    use SerializesModels;
 
-  public $tenant;
+    public $tenant;
 
-  use SerializesModels;
-
-  public function __construct($tenant)
-  {
-    $this->tenant = $tenant;
-  }
+    public function __construct($tenant)
+    {
+        $this->tenant = $tenant;
+    }
 }

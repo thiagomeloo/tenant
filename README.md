@@ -1,49 +1,130 @@
 # Tenant Package
 
-### Install
+## Install
 
-- install package
-- run migrations for creating tables **tenants** and **domains**
-- create folder migrations tenant in **database/migrations/tenant/app**
+- Install package
 
-### Example usage
+    ```bash
+        composer require thiagomeloo/tenant
+    ```
 
-```php
-<?php
+- Run migrations for creating tables **tenants** and **domains**
 
-  //create tenant and domain
-  $tenant = new Thiagomeloo\Tenant\Models\Tenant();
-  $tenant->save();
-  $tenant->domains()->create(['domain' => 'test.localhost']);
+    ```bash
+        php artisan migrate
+    ```
 
-  //Create route example in routes/tenants/web.php
-  use Illuminate\Support\Facades\Route;
+- Create folder migrations tenant in **database/migrations/tenant/app**
 
-  Route::get('example', function () {
-      dd("Ok"); 
-  });
+    ```bash
+        mkdir -p ./database/migrations/tenant/app
+    ```
 
-  //open test.localhost:8000/example 
-  // output: Ok
+- Publish
 
-```
+  - Config
 
-### Publish
+    ```bash
+        php artisan vendor:publish --tag=tenant-config --force
+    ```
 
-- Publish config
+  - Route File
 
-  ```
-     php artisan vendor:publish --tag=tenant-config --force
-  ```
+    ```bash
+        php artisan vendor:publish --tag=tenant-routes --force 
+    ```
 
-- publish route file
+## Usage
 
-  ```
-    php artisan vendor:publish --tag=tenant-routes --force 
-  ```
+- ### Create tenant and domain
 
-### Events
+    ```php
+    <?php
 
-- Create new Tenant Model dispatch **Thiagomeloo\Tenant\Events\TenantCreating**
-- Create database Tenant dispatch **Thiagomeloo\Tenant\Events\TenantDatabaseCreated**
-- Tenant setup and try running new migrations **Thiagomeloo\Tenant\EventsTenantSetupExecuted**
+    #create tenant and domain
+    $tenant = new Thiagomeloo\Tenant\Models\Tenant();
+    $tenant->save();
+    $tenant->domains()->create(['domain' => 'test.localhost']);
+    ```
+
+- ### Create migration for tenant
+
+    ```php
+    #database/migrations/tenant/app
+    <?php
+
+    use Illuminate\Database\Migrations\Migration;
+    use Illuminate\Database\Schema\Blueprint;
+    use Illuminate\Support\Facades\Schema;
+
+    return new class extends Migration
+    {
+        /**
+         * Run the migrations.
+         */
+        public function up(): void
+        {
+            Schema::create('products', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->timestamps();
+            });
+        }
+
+        /**
+         * Reverse the migrations.
+         */
+        public function down(): void
+        {
+            Schema::dropIfExists('products');
+        }
+    };
+
+    ```
+
+- ### Create Model for Tenant
+
+    ```php
+        # app/Models/Product.php
+        <?php
+
+        namespace App\Models;
+
+        use Illuminate\Database\Eloquent\Factories\HasFactory;
+        use Illuminate\Database\Eloquent\Model;
+
+        class Product extends Model
+        {
+
+            use HasFactory;
+
+            protected $connection = 'tenant';
+        }
+
+    
+    ```
+
+- ### Create Route for Tenant
+
+    ```php
+        #routes/tenants/web.php
+        
+        use Illuminate\Support\Facades\Route;
+
+        Route::get('example', function () {
+            dd("Ok"); 
+        }); #output: ok
+
+        Route::get('save-product-example', function(){
+            Product::create(['name' => 'Product 1']);
+            dd("Ok");
+        }); #output: ok
+    ```
+
+## Events
+
+|        **Event**        | **Namespace**                                       |
+|:-----------------------:|-----------------------------------------------------|
+| Create new Tenant Model | **Thiagomeloo\Tenant\Events\TenantCreating**        |
+| Create database Tenant  | **Thiagomeloo\Tenant\Events\TenantDatabaseCreated** |
+| Setup Tenant            | **Thiagomeloo\Tenant\EventsTenantSetupExecuted**    |

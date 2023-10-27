@@ -10,7 +10,7 @@
         "multi-tenancy"
     ],
     "type": "library",
-    "license": "GNU GPLv3",
+    "license": "GPL-3.0-or-later",
     "support": {
         "issues": "https://github.com/thiagomeloo/tenant/issues",
         "source": "https://github.com/thiagomeloo/tenant"

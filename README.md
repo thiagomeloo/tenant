@@ -98,7 +98,6 @@
 
             use HasFactory;
 
-            protected $connection = 'tenant';
         }
 
     

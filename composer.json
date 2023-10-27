@@ -1,9 +1,19 @@
 {
     "name": "thiagomeloo/tenant",
-    "autoload": {
-        "psr-4": {
-            "Thiagomeloo\\Tenant\\": "src"
-        }
+    "description": "A package to manage multi-tenant applications in Laravel",
+    "keywords": [
+        "php",
+        "laravel",
+        "multi-tenant",
+        "tenant",
+        "tenancy",
+        "multi-tenancy"
+    ],
+    "type": "library",
+    "license": "GNU GPLv3",
+    "support": {
+        "issues": "https://github.com/thiagomeloo/tenant/issues",
+        "source": "https://github.com/thiagomeloo/tenant"
     },
     "authors": [
         {
@@ -24,6 +34,11 @@
         "pestphp/pest": "^2.19",
         "laravel/pint": "^1.13"
     },
+    "autoload": {
+        "psr-4": {
+            "Thiagomeloo\\Tenant\\": "src"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
@@ -35,5 +50,7 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

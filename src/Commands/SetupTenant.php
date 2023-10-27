@@ -31,11 +31,13 @@ final class SetupTenant extends Command
 
         $this->info("Setup tenant {$tenant->name}");
 
-        $defaultConnection = Config::get('database.default');
+        //get default connection
+        $defaultConnectionName  = Config::get('database.default');
+        $defaultConnectionArray = Config::get('database.connections.' . $defaultConnectionName);
 
-        $dbType = Config::get('database.default');
+        $driver = $defaultConnectionArray['driver'];
 
-        switch ($dbType) {
+        switch ($driver) {
             case 'mysql':
                 $result = DB::select("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $tenant->id . "'");
 
@@ -58,7 +60,7 @@ final class SetupTenant extends Command
 
             Event::dispatch(new TenantDatabaseCreated($tenant));
 
-            switch ($dbType) {
+            switch ($driver) {
                 case 'mysql':
                 case 'pgsql':
                     DB::statement('CREATE DATABASE IF NOT EXISTS `' . $tenant->id . '`;');
@@ -79,12 +81,12 @@ final class SetupTenant extends Command
 
         $database = $tenant->id;
 
-        if ($dbType == 'sqlite') {
+        if ($driver == 'sqlite') {
             $database = App::databasePath($tenant->id . '.sqlite');
         }
 
         $configTenant = array_merge(
-            Config::get('database.connections.' . $defaultConnection),
+            Config::get('database.connections.' . $defaultConnectionName),
             [
                 'database' => $database,
             ]

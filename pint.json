@@ -1,0 +1,56 @@
+{
+    "preset": "psr12",
+    "rules": {
+        "blank_line_after_opening_tag": true,
+        "blank_line_after_namespace": true,
+        "declare_strict_types": true,
+        "ordered_imports": true,
+        "no_unused_imports": true,
+        "ordered_interfaces": true,
+        "ordered_traits": true,
+        "final_class": true,
+        "no_closing_tag": true,
+        "array_push": true,
+        "array_indentation": true,
+        "backtick_to_shell_exec": true,
+        "fully_qualified_strict_types": true,
+        "declare_equal_normalize": true,
+        "no_extra_blank_lines": true,
+        "binary_operator_spaces": {
+            "default": "single_space",
+            "operators": {
+                "=": "align_single_space_minimal",
+                "=>": "align_single_space_minimal"
+            }
+        },
+        "ternary_operator_spaces": true,
+        "no_trailing_whitespace": true,
+        "no_space_around_double_colon": true,
+        "no_whitespace_in_blank_line": true,
+        "single_line_after_imports": true,
+        "blank_line_before_statement": {
+            "statements": [
+                "break",
+                "continue",
+                "declare",
+                "return",
+                "throw",
+                "try",
+                "continue",
+                "do",
+                "exit",
+                "for",
+                "foreach",
+                "if",
+                "include",
+                "include_once",
+                "require",
+                "require_once"
+            ]
+        },
+        "new_with_braces": {
+            "anonymous_class": false,
+            "named_class": false
+        }
+    }
+}

@@ -20,12 +20,20 @@
         "illuminate/events": "^10.0",
         "illuminate/queue": "^10.0"
     },
-    "require-dev": {},
+    "require-dev": {
+        "pestphp/pest": "^2.19",
+        "laravel/pint": "^1.13"
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "Thiagomeloo\\Tenant\\TenantServiceProvider"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     }
 }

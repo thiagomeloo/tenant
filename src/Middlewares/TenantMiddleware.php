@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Thiagomeloo\Tenant\Middlewares;
 
 use Closure;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ final class TenantMiddleware
 
         $domain = Domain::where('domain', $host)->first();
 
-        if (! $domain || ! $domain->tenant) {
+        if (!$domain || !$domain->tenant) {
             throw new HttpException(404);
         }
 
@@ -33,11 +34,18 @@ final class TenantMiddleware
             'tenant' => $tenant->id,
         ]);
 
+        $dbType   = Config::get('database.default');
+        $database = $tenant->id;
+
+        if ($dbType == 'sqlite') {
+            $database = App::databasePath($tenant->id . '.sqlite');
+        }
+
         //alter config
         $configTenant = array_merge(
-            Config::get('database.connections.'.$defaultConnection),
+            Config::get('database.connections.' . $defaultConnection),
             [
-                'database' => $tenant->id,
+                'database' => $database,
             ]
         );
 
